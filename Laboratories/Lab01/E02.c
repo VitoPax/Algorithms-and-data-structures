@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
 
-#define MAX_CORSE 1000
+//#define MAX_CORSE 1000
 #define MAX_LENGTH 31
 
 typedef struct {
@@ -40,7 +39,7 @@ typedef enum {
 }comando_e;
 
 /* Prototypes */
-int readFile(char *filename, corsa_t **tabella);
+int leggiFile(char *filename, corsa_t **tabella);
 void liberaTabella(corsa_t *tabella, int n);
 
 comando_e leggiComando(void);
@@ -58,7 +57,7 @@ void ritardoTotale(corsa_t *tabella, int n, char *codice);
 
 int main(void) {
     corsa_t *tabella = NULL;
-    int num_corse = readFile("../corse.txt", &tabella);
+    int num_corse = leggiFile("../corse.txt", &tabella);
     fprintf(stdout, "Ci sono %d corse\n", num_corse);
 
     comando_e cmd;
@@ -106,7 +105,7 @@ int main(void) {
 }
 
 
-int readFile(char *filename, corsa_t **tabella) {
+int leggiFile(char *filename, corsa_t **tabella) {
     FILE *fin = fopen(filename, "r");
     int num_corse;
     int i;

@@ -3,4 +3,4 @@ project(Lab02 C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(Lab02 E01.c)
+add_executable(Lab02 E02.c)

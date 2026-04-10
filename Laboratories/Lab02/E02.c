@@ -36,10 +36,9 @@ int main() {
     printf("Vettore neri:\n");
     printVector(black, blackCount);
 
-    /* deallocazione */
+    /* Deallocation*/
     free(white);
     free(black);
-
     free2d(mat, nr);
 
     return 0;

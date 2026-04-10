@@ -6,11 +6,14 @@ int **malloc2dR(int nr, int nc);
 void free2d(int **m, int nr);
 void printMatrix(int **m, int nr, int nc);
 
-void separa (int **m, int nr, int nc);
+void separa(int **m, int nr, int nc, int **white, int **black, int *whiteCount, int *blackCount);
+void printVector(int *v, int n);
 
 int main() {
     int nr, nc;
     int **mat;
+    int *white, *black;
+    int whiteCount, blackCount;
 
     mat = readMatrix("../mat.txt", &nr, &nc);
 
@@ -19,11 +22,23 @@ int main() {
         return 1;
     }
 
-    /* Debugging */
+    /* Print for debugging */
     printf("Number of rows: %d\n", nr);
     printf("Number of columns: %d\n", nc);
     printMatrix(mat, nr, nc);
 
+    separa(mat, nr, nc, &white, &black, &whiteCount, &blackCount);
+
+    /* Print for debugging */
+    printf("Vettore bianchi:\n");
+    printVector(white, whiteCount);
+
+    printf("Vettore neri:\n");
+    printVector(black, blackCount);
+
+    /* deallocazione */
+    free(white);
+    free(black);
 
     free2d(mat, nr);
 
@@ -93,6 +108,53 @@ void printMatrix(int **m, int nr, int nc) {
     }
 }
 
-void separa (int **m, int nr, int nc) {
-    int i
+void separa(int **m, int nr, int nc, int **white, int **black, int *whiteCount, int *blackCount) {
+    int i, j;
+    int whiteIndex = 0, blackIndex = 0;
+
+    *whiteCount = 0;
+    *blackCount = 0;
+
+
+    for (i = 0; i < nr; i++) {
+        for (j = 0; j < nc; j++) {
+            if ((i + j) % 2 == 0)
+                (*whiteCount)++;
+            else
+                (*blackCount)++;
+        }
+    }
+
+    *white = malloc((*whiteCount) * sizeof(int));
+    *black = malloc((*blackCount) * sizeof(int));
+
+    if (*white == NULL || *black == NULL) {
+        free(*white);
+        free(*black);
+        *white = NULL;
+        *black = NULL;
+        *whiteCount = 0;
+        *blackCount = 0;
+        return;
+    }
+
+    for (i = 0; i < nr; i++) {
+        for (j = 0; j < nc; j++) {
+            if ((i + j) % 2 == 0) {
+                (*white)[whiteIndex] = m[i][j];
+                whiteIndex++;
+            } else {
+                (*black)[blackIndex] = m[i][j];
+                blackIndex++;
+            }
+        }
+    }
+}
+
+void printVector(int *v, int n) {
+    int i;
+    for (i = 0; i < n; i++) {
+        printf("%d ", v[i]);
+    }
+    printf("\n");
 }

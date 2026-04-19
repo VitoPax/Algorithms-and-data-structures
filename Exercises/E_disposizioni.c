@@ -17,7 +17,7 @@ void stampa(int *sol, int k) {
 }
 
 void disp_r(int level, int *val, int *sol, int *mark, int n, int k) {
-    if (level == k) {
+    if (level >= k) {
         stampa(sol, k);
         return;
     }

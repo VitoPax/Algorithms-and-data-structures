@@ -1,6 +1,5 @@
 /*
-Dato un insieme di n elementi (ad esempio numeri da 1 a n), devi stampare tutte le disposizioni, ammettendo ripetizioni di k elementi,
-    cioè tutte le sequenze ordinate senza ripetizione.
+Dato un insieme di n elementi (ad esempio numeri da 1 a n), devi stampare tutte le disposizioni, ammettendo ripetizioni di k elementi.
 */
 
 #include <stdio.h>
@@ -12,8 +11,8 @@ void stampaSol(int *sol, int k);
 
 int main(void) {
 
-    int vett[] = {1,2,3};
-    disp_rip(vett,3,2);
+    int val[] = {1,2,3,4};
+    disp_rip(val,4,2);
 
     return 0;
 }
@@ -34,11 +33,10 @@ void disp_rip(int *val, int n, int k) {
 }
 
 void disp_ripR(int level, int *val, int *sol, int n, int k) {
-    if (level >= n) {
-        stampaSol(val,k);
+    if (level >= k) {
+        stampaSol(sol,k);
         return;
     }
-
 
     for (int i = 0; i < n; i++) {
         sol[level] = val[i];

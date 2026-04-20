@@ -14,22 +14,75 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 
-
 int cntNum(int base, int nDigits, int maxRip);
+int cntNumR(int level, int *sol, int *occ, int base, int nDigits, int maxRip, int lastDigit, int nDistinte);
 
+int main(void) {
+    int base = 10;
+    int maxRip = 3;
+    int nDigits = 9;
 
-int cntNum(int base, int nDigits, int maxRip) {
-    // Contatore dei numeri che rispettano i vincoli
-    int cntOK = 0;
+    int res = cntNum(base, nDigits, maxRip);
 
-
-    return cntOK;
+    printf("counter of solutions: %d\n", res);
+    return 0;
 }
 
+/*
+   La soluzione e' una variante del modello delle disposizioni con ripetizioni,
+   in cui il numero di ripetizioni e' limitato a maxRip.
+   Il vettore occ tiene il conto delle occorrenze di ogni cifra.
+   Si fa pruning sulla differenza tra cifre adiacenti.
+   Il conteggio delle cifre distinte viene aggiornato ad ogni chiamata ricorsiva
+   e verificato nel caso terminale.
+*/
+int cntNumR(int level, int *sol, int *occ, int base, int nDigits, int maxRip, int lastDigit, int nDistinte) {
+    int i, cnt = 0;
+    int start;
 
-int main(int argc, char **argv) {
-    /* you can implement your test case here [NOT NEEDED] */
-    return 0;
+    if (level == nDigits)
+        return (nDistinte >= nDigits / 2) ? 1 : 0;
+
+    start = (level == 0) ? 1 : 0;
+
+    for (i = start; i < base; i++) {
+        if (occ[i] >= maxRip)
+            continue;
+
+        if (level > 0 && abs(i - lastDigit) > 2)
+            continue;
+
+        if (occ[i]++ == 0)
+            nDistinte++;
+
+        sol[level] = i;
+        cnt += cntNumR(level + 1, sol, occ, base, nDigits, maxRip, i, nDistinte);
+
+        if (--occ[i] == 0)
+            nDistinte--;
+    }
+
+    return cnt;
+}
+
+int cntNum(int base, int nDigits, int maxRip) {
+    int *sol = malloc(nDigits * sizeof(int));
+    int *occ = calloc(base, sizeof(int));
+    int cntOK;
+
+    if (sol == NULL || occ == NULL) {
+        free(sol);
+        free(occ);
+        return 0;
+    }
+
+    cntOK = cntNumR(0, sol, occ, base, nDigits, maxRip, -1, 0);
+
+    free(sol);
+    free(occ);
+
+    return cntOK;
 }

@@ -12,3 +12,24 @@
     int cntNum(int base, int nDigits, int maxRip);
 */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+
+int cntNum(int base, int nDigits, int maxRip);
+
+
+int cntNum(int base, int nDigits, int maxRip) {
+    // Contatore dei numeri che rispettano i vincoli
+    int cntOK = 0;
+
+
+    return cntOK;
+}
+
+
+int main(int argc, char **argv) {
+    /* you can implement your test case here [NOT NEEDED] */
+    return 0;
+}

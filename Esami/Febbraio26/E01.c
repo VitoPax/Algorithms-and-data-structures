@@ -75,7 +75,6 @@ float ProcessItems(Item *vet, int n, Key *keys, Item **maxp){
     return sum;
 }
 
-
 int main (void) {
     Item vet[]={{"Parigi",2.2},{"Roma",2.75},{"Londra",8.8},{"Berlino",3.75}};
     Item *maxp;

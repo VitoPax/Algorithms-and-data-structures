@@ -14,16 +14,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <math.h>
 
 int cntNum(int base, int nDigits, int maxRip);
 int cntNumR(int level, int *sol, int *occ, int base, int nDigits, int maxRip, int lastDigit, int nDistinte);
 
 int main(void) {
-    int base = 10;
-    int maxRip = 3;
-    int nDigits = 9;
+    int base = 7;
+    int maxRip = 2;
+    int nDigits = 5;
 
     int res = cntNum(base, nDigits, maxRip);
 
@@ -86,3 +84,7 @@ int cntNum(int base, int nDigits, int maxRip) {
 
     return cntOK;
 }
+
+/* commento finale per fissare una parte importante della ricorsione, lastDigit viene inziailizzata nel wrapper
+ * dopodiche' ad ogni chiamata ricorsiva viene fatta mettendo i nel campo lastDigit
+*/

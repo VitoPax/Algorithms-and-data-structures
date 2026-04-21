@@ -84,7 +84,6 @@ int cntNum(int base, int nDigits, int maxRip) {
 
     return cntOK;
 }
-
 /* commento finale per fissare una parte importante della ricorsione, lastDigit viene inziailizzata nel wrapper
  * dopodiche' ad ogni chiamata ricorsiva viene fatta mettendo i nel campo lastDigit
 */

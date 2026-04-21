@@ -27,8 +27,8 @@ typedef char *Key;
 int KEYcmp(Key k1, Key k2);
 void ITEMprint(Item *item);
 
-char *KEYget(Item *item);
-int ProcessItems(Item *vet, int n, Key *keys, Item *maxp);
+Key KEYget(Item *item);
+float ProcessItems(Item *vet, int n, Key *keys, Item **maxp);
 
 
 int KEYcmp(Key k1, Key k2) {
@@ -40,36 +40,37 @@ void ITEMprint(Item *item) {
 }
 
 
-char *KEYget(Item *item){
+Key KEYget(Item *item){
     return item->name;
 }
 
-int ProcessItems(Item *vet, int n, Key *keys, Item *maxp){
-    int sum = 0;
-    int dimS = 0;
+float ProcessItems(Item *vet, int n, Key *keys, Item **maxp){
+    float sum = 0;
+    int i, lenTot = 0, posMax = 0;
 
-    // Calcolo la dimensione della stringa concatenata
-    for(int i = 0; i <n; i++){
-        dimS = dimS + strlen(KEYget(&(vet[i])));
+    for (i = 0; i < n; i++) {
+        sum += vet[i].val;
+        lenTot += strlen(KEYget(&vet[i]));
+
+        if (KEYcmp(KEYget(&vet[i]), KEYget(&vet[posMax])) > 0)
+            posMax = i;
     }
 
-    // Alloco la nuova stringa conoscendo dimS
-    char *s = malloc(dimS*sizeof(char));
+    *keys = malloc((lenTot + 1) * sizeof(char));
 
-    for (int i = 0; i<dimS; i++){
-        s[i] = KEYget(&(vet[i]));
-    }
-    printf("%s\n", s);
+    if (*keys == NULL)
+        return 0;
 
-    char *tmp = KEYget(&(vet[0]));
-    for(int i = 0; i<n; i++){
-        if(KEYcmp(KEYget(&(vet[i])), &tmp)){
-            *tmp = KEYget(&(vet[i]));
-        }
-        sum = sum + vet[i].val;
+    // Stringa vuota
+    (*keys)[0] = '\0';
+
+    // Concatenazione
+    for (i = 0; i < n; i++) {
+        strcat(*keys, KEYget(&vet[i]));
     }
 
-    *maxp;
+    // Assegnazione del massimo
+    *maxp = &vet[posMax];
 
     return sum;
 }

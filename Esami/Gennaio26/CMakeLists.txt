@@ -5,4 +5,7 @@ set(CMAKE_C_STANDARD 99)
 
 add_executable(Gennaio26 E01.c
         E02.c
-        bst.h)
+        bst.h
+        item.c
+        item.h
+        mainE02.c)

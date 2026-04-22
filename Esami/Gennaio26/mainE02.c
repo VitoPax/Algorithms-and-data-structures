@@ -45,8 +45,8 @@ int main(void) {
     printf("Nodi tra Bologna e Venezia: %d\n", cnt);
 
     /* entrambe presenti ma magari nessun nodo in mezzo */
-    cnt = BSTcountBetween(b, "Genova", "Milano");
-    printf("Nodi tra Genova e Milano: %d\n", cnt);
+    cnt = BSTcountBetween(b, "Potenza", "Milano");
+    printf("Nodi tra Potenza e Milano: %d\n", cnt);
 
     return 0;
 }

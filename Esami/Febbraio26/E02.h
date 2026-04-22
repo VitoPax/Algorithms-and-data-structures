@@ -9,9 +9,12 @@ typedef struct {
 
 typedef struct binarysearchtree *BST;
 
+/* operazioni pubbliche */
+BST BSTdup(BST b);
 BST BSTinit(void);
 void BSTfree(BST b);
-BST BSTdup(BST b);
+
+/* funzioni utili per il test */
 void BSTinsertLeaf(BST b, Item item);
 void BSTshow(BST b);
 

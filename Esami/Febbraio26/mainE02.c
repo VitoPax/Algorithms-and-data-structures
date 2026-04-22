@@ -3,10 +3,12 @@
 #include "E02.h"
 
 int main(void) {
-    BST b, c;
+    BST b, bDup;
     Item x;
 
     b = BSTinit();
+    if (b == NULL)
+        return 1;
 
     strcpy(x.name, "M");
     BSTinsertLeaf(b, x);
@@ -32,13 +34,17 @@ int main(void) {
     printf("BST originale:\n");
     BSTshow(b);
 
-    c = BSTdup(b);
+    bDup = BSTdup(b);
+    if (bDup == NULL) {
+        BSTfree(b);
+        return 1;
+    }
 
     printf("\nBST duplicato:\n");
-    BSTshow(c);
+    BSTshow(bDup);
 
     BSTfree(b);
-    BSTfree(c);
+    BSTfree(bDup);
 
     return 0;
 }

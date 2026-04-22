@@ -72,20 +72,24 @@ static void freeR(link h, link z) {
     free(h);
 }
 
-static link dupR(link h, link zold, link znew, link parent) {
-    link x;
+static link BSTdup_r(link h, link z, link zDup, link parent) {
+    link newNode;
 
-    if (h == zold)
-        return znew;
+    if (h == z)
+        return zDup;
 
-    x = NEW(h->item, parent, znew, znew, h->N);
-    if (x == NULL)
-        return znew;
+    newNode = malloc(sizeof(*newNode));
+    if (newNode == NULL)
+        return zDup;
 
-    x->l = dupR(h->l, zold, znew, x);
-    x->r = dupR(h->r, zold, znew, x);
+    newNode->item = h->item;
+    newNode->N = h->N;
+    newNode->p = parent;
 
-    return x;
+    newNode->l = BSTdup_r(h->l, z, zDup, newNode);
+    newNode->r = BSTdup_r(h->r, z, zDup, newNode);
+
+    return newNode;
 }
 
 static link insertR(link h, link z, Item item, link parent) {
@@ -142,18 +146,30 @@ void BSTfree(BST b) {
 }
 
 BST BSTdup(BST b) {
-    BST copy;
+    BST bDup;
 
     if (b == NULL)
         return NULL;
 
-    copy = BSTinit();
-    if (copy == NULL)
+    bDup = malloc(sizeof(*bDup));
+    if (bDup == NULL)
         return NULL;
 
-    copy->root = dupR(b->root, b->z, copy->z, copy->z);
+    bDup->z = malloc(sizeof(*(bDup->z)));
+    if (bDup->z == NULL) {
+        free(bDup);
+        return NULL;
+    }
 
-    return copy;
+    strcpy(bDup->z->item.name, "");
+    bDup->z->p = bDup->z;
+    bDup->z->l = bDup->z;
+    bDup->z->r = bDup->z;
+    bDup->z->N = 0;
+
+    bDup->root = BSTdup_r(b->root, b->z, bDup->z, bDup->z);
+
+    return bDup;
 }
 
 void BSTinsertLeaf(BST b, Item item) {

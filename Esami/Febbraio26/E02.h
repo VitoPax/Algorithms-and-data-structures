@@ -12,7 +12,7 @@ typedef struct binarysearchtree *BST;
 BST BSTinit(void);
 void BSTfree(BST b);
 BST BSTdup(BST b);
-
+void BSTinsertLeaf(BST b, Item item);
 void BSTshow(BST b);
 
 #endif //FEBBRAIO26_E02_H

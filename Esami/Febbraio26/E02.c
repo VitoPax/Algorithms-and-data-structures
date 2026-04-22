@@ -39,6 +39,10 @@ struct binarysearchtree {
     link z;
 };
 
+static int ITEMcmp(Item a, Item b) {
+    return strcmp(a.name, b.name);
+}
+
 static link NEW(Item item, link p, link l, link r, int N) {
     link x = malloc(sizeof(*x));
     if (x == NULL)
@@ -53,6 +57,12 @@ static link NEW(Item item, link p, link l, link r, int N) {
     return x;
 }
 
+static int countN(link h, link z) {
+    if (h == z)
+        return 0;
+    return h->N;
+}
+
 static void freeR(link h, link z) {
     if (h == z)
         return;
@@ -60,6 +70,44 @@ static void freeR(link h, link z) {
     freeR(h->l, z);
     freeR(h->r, z);
     free(h);
+}
+
+static link dupR(link h, link zold, link znew, link parent) {
+    link x;
+
+    if (h == zold)
+        return znew;
+
+    x = NEW(h->item, parent, znew, znew, h->N);
+    if (x == NULL)
+        return znew;
+
+    x->l = dupR(h->l, zold, znew, x);
+    x->r = dupR(h->r, zold, znew, x);
+
+    return x;
+}
+
+static link insertR(link h, link z, Item item, link parent) {
+    if (h == z)
+        return NEW(item, parent, z, z, 1);
+
+    if (ITEMcmp(item, h->item) < 0)
+        h->l = insertR(h->l, z, item, h);
+    else
+        h->r = insertR(h->r, z, item, h);
+
+    h->N = 1 + countN(h->l, z) + countN(h->r, z);
+    return h;
+}
+
+static void showR(link h, link z) {
+    if (h == z)
+        return;
+
+    showR(h->l, z);
+    printf("%s (N=%d)\n", h->item.name, h->N);
+    showR(h->r, z);
 }
 
 BST BSTinit(void) {
@@ -91,4 +139,33 @@ void BSTfree(BST b) {
     freeR(b->root, b->z);
     free(b->z);
     free(b);
+}
+
+BST BSTdup(BST b) {
+    BST copy;
+
+    if (b == NULL)
+        return NULL;
+
+    copy = BSTinit();
+    if (copy == NULL)
+        return NULL;
+
+    copy->root = dupR(b->root, b->z, copy->z, copy->z);
+
+    return copy;
+}
+
+void BSTinsertLeaf(BST b, Item item) {
+    if (b == NULL)
+        return;
+
+    b->root = insertR(b->root, b->z, item, b->z);
+}
+
+void BSTshow(BST b) {
+    if (b == NULL)
+        return;
+
+    showR(b->root, b->z);
 }

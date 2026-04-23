@@ -8,6 +8,17 @@
     parti dell’albero sicuramente da non conteggiare.
 */
 
+/*
+    Altro esercizio
+    È dato un BST b e una chiave k.
+    Si scriva una funzione
+
+    int BSTcountGreater(BST b, Key k);
+
+    che conti quanti nodi del BST hanno chiave strettamente maggiore di k.
+    Anche qui, è preferibile una soluzione che eviti la visita di parti dell’albero sicuramente inutili.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "bst.h"
@@ -120,6 +131,30 @@ int BSTcountBetween(BST b, Key k1, Key k2) {
         return -1;
 
     return ret;
+}
+
+static int countGreaterR(link h, link z, Key k) {
+    int cmp;
+
+    if (h == z)
+        return 0;
+    cmp = KEYcmp(k,KEYget(&h->item));
+
+    if (cmp >= 0)
+        return countGreaterR(h->r, z,k);
+
+    return 1 + countGreaterR(h->r,z,k) + countGreaterR(h->l, z, k);
+}
+
+int BSTcountGreater(BST b, Key k) {
+    int conteggio;
+
+    if (b == NULL)
+        return -1;
+
+    conteggio = countGreaterR(b->root,b->z,k);
+
+    return conteggio;
 }
 
 static void showR(link h, link z) {

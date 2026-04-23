@@ -48,5 +48,24 @@ int main(void) {
     cnt = BSTcountBetween(b, "Potenza", "Milano");
     printf("Nodi tra Potenza e Milano: %d\n", cnt);
 
+    /* test per l'esercizio BSTcountGreater */
+
+    printf("\n--- Test BSTcountGreater ---\n");
+
+    cnt = BSTcountGreater(b, "Roma");
+    printf("Nodi con chiave maggiore di Roma: %d\n", cnt);
+
+    cnt = BSTcountGreater(b, "Milano");
+    printf("Nodi con chiave maggiore di Milano: %d\n", cnt);
+
+    cnt = BSTcountGreater(b, "Torino");
+    printf("Nodi con chiave maggiore di Torino: %d\n", cnt);
+
+    cnt = BSTcountGreater(b, "Aosta");
+    printf("Nodi con chiave maggiore di Aosta: %d\n", cnt);
+
+    cnt = BSTcountGreater(b, "Venezia");
+    printf("Nodi con chiave maggiore di Venezia: %d\n", cnt);
+
     return 0;
 }

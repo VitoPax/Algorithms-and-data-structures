@@ -13,6 +13,7 @@ BST BSTinit(void);
 void BSTinsert_leafR(BST b, Item val);
 int BSTcountBetween(BST b, Key k1, Key k2);
 void BSTshow(BST b);
+int BSTcountGreater(BST b, Key k);
 
 
 #endif //GENNAIO26_BST_H

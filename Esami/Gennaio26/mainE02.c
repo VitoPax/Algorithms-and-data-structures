@@ -64,8 +64,8 @@ int main(void) {
     cnt = BSTcountGreater(b, "Aosta");
     printf("Nodi con chiave maggiore di Aosta: %d\n", cnt);
 
-    cnt = BSTcountGreater(b, "Venezia");
-    printf("Nodi con chiave maggiore di Venezia: %d\n", cnt);
+    cnt = BSTcountGreater(b, "Catania");
+    printf("Nodi con chiave maggiore di Catania: %d\n", cnt);
 
     return 0;
 }

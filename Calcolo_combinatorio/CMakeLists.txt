@@ -3,5 +3,4 @@ project(Calcolo_combinatorio C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(Calcolo_combinatorio combinazioni.c
-        disposizioni.c)
+add_executable(Calcolo_combinatorio disposizioni.c)

@@ -27,9 +27,6 @@ void disp_rip(int *val, int n, int k) {
     free(sol);
 }
 
-
-
-
 void disp_rip_r(int level, int *val, int *sol, int n, int k) {
     // Terminazione
     if (level >= k) {

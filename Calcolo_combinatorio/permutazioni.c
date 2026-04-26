@@ -13,6 +13,7 @@ void perm_rip_r(int level, int *val, int *sol, int n);
 int main() {
 
     int val[] = {1,2,3};
+    // To test
     perm(val,3);
 
     return 0;

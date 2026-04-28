@@ -6,7 +6,7 @@
 typedef struct BSTnode *link;
 
 struct BSTnode {
-    int key;
+    Item item;
     link l;
     link r;
 };
@@ -17,15 +17,36 @@ struct bst {
 };
 
 // Creazione del nodo
-static link NEW(int key, link l, link r) {
+static link NEW(Item item, link l, link r) {
     link x = malloc(sizeof(*x));
-    if (x == NULL)
-        return NULL;
-    x->key = key;
+
+    if (x == NULL) {
+        printf("Errore malloc\n");
+        exit(1);
+    }
+
+    x->item = item;
     x->l = l;
     x->r = r;
+
     return x;
 }
 
 
+BST BSTinit(void) {
+    BST bst = malloc(sizeof(*bst));
+
+    if (bst == NULL) {
+        printf("Errore malloc\n");
+        exit(1);
+    }
+
+    bst->z = NEW(ITEMsetNull(), NULL, NULL);
+    bst->root = bst->z;
+
+    return bst;
+}
+
+
 // Inserimento in foglia, versione RICORSIVA
+

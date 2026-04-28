@@ -29,8 +29,8 @@ void KEYscan(Key k) {
     scanf("%s", k);
 }
 
-Key KEYget(Item *pval) {
-    return pval->name;
+Key KEYget(Item val) {
+    return val.name;
 }
 
 int KEYcmp(Key k1, Key k2){

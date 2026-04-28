@@ -3,4 +3,4 @@ project(Maggio25 C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(Maggio25 )
+add_executable(Maggio25 main.c)

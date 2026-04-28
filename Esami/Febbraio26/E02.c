@@ -82,6 +82,7 @@ static link BSTdup_r(link h, link z, link zDup, link parent) {
     if (newNode == NULL)
         return zDup;
 
+    // CONSIDERANDO il primo livello ricorsivo questa e' la root
     newNode->item = h->item;
     newNode->N = h->N;
     newNode->p = parent;
@@ -161,6 +162,7 @@ BST BSTdup(BST b) {
         return NULL;
     }
 
+    // Solo per inizializzare la nua sentinella
     strcpy(bDup->z->item.name, "");
     bDup->z->p = bDup->z;
     bDup->z->l = bDup->z;

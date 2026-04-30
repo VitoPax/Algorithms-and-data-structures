@@ -4,4 +4,7 @@ project(Graphs C)
 set(CMAKE_C_STANDARD 99)
 
 add_executable(Graphs main.c
-        graph.c)
+        graph.c
+        graph.h
+        st.c
+        st.h)

@@ -15,10 +15,11 @@ int main(void) {
     printf("Prima della rimozione:\n");
     GRAPHstore(G, stdout);
 
+    /* Rimozione arco
     GRAPHremoveE(G, 0, 4);
-
     printf("\nDopo la rimozione di 0--4:\n");
     GRAPHstore(G, stdout);
+    */
 
     GRAPHfree(G);
 

@@ -23,14 +23,17 @@ int listDeleteLonger(List l, int lmax) {
             t = x->next;
 
             if (x == l->head) {
+                // Se il nodo da cancellare e' la testa, sposto la testa al successivo
                 l->head = x->next;
             } else {
+                // Altrimenti ci sara' un precedente sicuramente
                 p->next = x->next;
             }
 
             free(x->val);
             free(x);
 
+            // x ora diventa il prossimo, salto. Ricordiamo che prima abbiamo fatto t = x->next
             x = t;
             // l->N--;  Solo se in List ho il numero di nodi
             cnt++;

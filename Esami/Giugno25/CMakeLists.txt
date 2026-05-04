@@ -4,9 +4,7 @@ project(Giugno25 C)
 set(CMAKE_C_STANDARD 99)
 
 add_executable(Giugno25
-        E02.c
-        bst.h
-        bst.c
-        item.c
-        item.h
+        E03.c
+        graph.h
+        graph.c
 )

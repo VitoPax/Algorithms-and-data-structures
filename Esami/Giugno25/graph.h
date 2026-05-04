@@ -8,7 +8,7 @@ void GRAPHinsertE(Graph G, int v, int w);
 void GRAPHshow(Graph G);
 void GRAPHfree(Graph G);
 
-/* Funzione dell'esercizio: la completi tu in graph.c */
+/* Funzione dell'esame: vedi graph.c */
 int GRAPHcheckSimmetry(Graph G);
 
 #endif //GIUGNO25_GRAPH_H

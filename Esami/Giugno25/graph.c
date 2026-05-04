@@ -110,7 +110,7 @@ static void listFree(link x) {
 }
 
 /*
-    Funzione ausiliaria utile:
+    Funzione ausiliaria:
     ritorna 1 se esiste l'arco v -> w,
     ritorna 0 altrimenti.
 */
@@ -134,20 +134,23 @@ static int GRAPHedgeExists(Graph G, int v, int w) {
     0 altrimenti
 */
 int GRAPHcheckSimmetry(Graph G) {
-    /*
-        Suggerimento:
+    int v;
+    link k;
 
-        per ogni vertice v:
-            scorri la lista G->ladj[v]
-            per ogni arco v -> w:
-                se v == w, ritorna 0
-                se non esiste w -> v, ritorna 0
+    if (G == NULL)
+        return 0;
 
-        alla fine ritorna 1
-    */
+    for (v = 0; v < G->V; v++) {
+        for (k = G->ladj[v]; k != NULL; k = k->next) {
+            int w = k->v;
 
+            if (v == w)
+                return 0;
 
+            if (!GRAPHedgeExists(G, w, v))
+                return 0;
+        }
+    }
 
-
-    return -1;  /* valore provvisorio */
+    return 1;
 }

@@ -19,7 +19,8 @@ void GRAPHremoveE(Graph G, int id1, int id2);
 
 void GRAPHstore(Graph G, FILE *fout);
 
-void GRAPHsimpleDfs(Graph G, int id);
+void GRAPHdfs(Graph G);
+void GRAPHdfsFrom(Graph G, int start);
 
 
 #endif //GRAPHS_GRAPH_H

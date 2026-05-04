@@ -149,23 +149,24 @@ void GRAPHstore(Graph G, FILE *fout) {
 }
 
 /* DFS semplice ricorsiva */
-static void simpleDfsR(Graph G, Edge e, int *cnt, int *pre) {
-    link t;
-    int w = e.w;
+static void GRAPHdfs_r(Graph G, int v, int *pre, int *cnt) {
+    link k;
 
-    pre[w] = (*cnt)++;
+    pre[v] = (*cnt)++;
 
-    printf("Visito vertice %d\n", w);
+    printf("Visito vertice %d\n", v);
 
-    for (t = G->ladj[w]; t != NULL; t = t->next) {
-        if (pre[t->v] == -1) {
-            simpleDfsR(G, EDGEcreate(w, t->v, t->wt), cnt, pre);
+    for (k = G->ladj[v]; k != NULL; k = k->next) {
+        int w = k->v;
+
+        if (pre[w] == -1) {
+            GRAPHdfs_r(G, w, pre, cnt);
         }
     }
 }
 
 /* DFS semplice pubblica */
-void GRAPHsimpleDfs(Graph G, int id) {
+void GRAPHdfs(Graph G) {
     int v;
     int cnt = 0;
     int *pre;
@@ -175,7 +176,6 @@ void GRAPHsimpleDfs(Graph G, int id) {
     }
 
     pre = malloc(G->V * sizeof(int));
-
     if (pre == NULL) {
         printf("Errore malloc\n");
         exit(1);
@@ -185,16 +185,48 @@ void GRAPHsimpleDfs(Graph G, int id) {
         pre[v] = -1;
     }
 
-    simpleDfsR(G, EDGEcreate(id, id, 0), &cnt, pre);
-
     for (v = 0; v < G->V; v++) {
         if (pre[v] == -1) {
-            simpleDfsR(G, EDGEcreate(v, v, 0), &cnt, pre);
+            GRAPHdfs_r(G, v, pre, &cnt);
         }
     }
 
     printf("\nDiscovery time labels:\n");
+    for (v = 0; v < G->V; v++) {
+        printf("vertex %d : %d\n", v, pre[v]);
+    }
 
+    free(pre);
+}
+
+/* Dfs da vertice */
+void GRAPHdfsFrom(Graph G, int start) {
+    int v;
+    int cnt = 0;
+    int *pre;
+
+    if (G == NULL) {
+        return;
+    }
+
+    if (start < 0 || start >= G->V) {
+        printf("Vertice non valido\n");
+        return;
+    }
+
+    pre = malloc(G->V * sizeof(int));
+    if (pre == NULL) {
+        printf("Errore malloc\n");
+        exit(1);
+    }
+
+    for (v = 0; v < G->V; v++) {
+        pre[v] = -1;
+    }
+
+    GRAPHdfs_r(G, start, pre, &cnt);
+
+    printf("\nDiscovery time labels da %d:\n", start);
     for (v = 0; v < G->V; v++) {
         printf("vertex %d : %d\n", v, pre[v]);
     }

@@ -3,4 +3,6 @@ project(18pt C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(18pt main.c)
+add_executable(18pt main.c
+        graph.h
+        graph.c)

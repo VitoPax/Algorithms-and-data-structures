@@ -338,3 +338,29 @@ vertexSeq readVertexSeq(GRAPH G, FILE *fp) {
 
     return s;
 }
+
+
+int checkBipart(GRAPH g, vertexSeq V1) {
+    int *inV1;
+    int i, v;
+    link t;
+
+    inV1 = calloc(g->V, sizeof(int));
+
+    for (i = 0; i < vertexSeqSize(V1); i++) {
+        v = vertexSeqGet(V1, i);
+        inV1[v] = 1;
+    }
+
+    for (v = 0; v < g->V; v++) {
+        for (t = g->ladj[v]; t != g->z; t = t->next) {
+            if (inV1[v] == inV1[t->v]) {
+                free(inV1);
+                return 0;
+            }
+        }
+    }
+
+    free(inV1);
+    return 1;
+}

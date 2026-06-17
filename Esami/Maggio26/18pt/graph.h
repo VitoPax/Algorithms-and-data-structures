@@ -37,4 +37,6 @@ void vertexSeqFree(vertexSeq s);
 /* funzione richiesta dalla traccia */
 vertexSeq readVertexSeq(GRAPH G, FILE *fp);
 
+int checkBipart(GRAPH g, vertexSeq V1);
+
 #endif //INC_18PT_GRAPH_H

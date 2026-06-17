@@ -6,11 +6,13 @@ int main(void) {
     GRAPH G;
     Edge e;
     FILE *fp;
-    vertexSeq s;
+    vertexSeq V1;
     int i, id;
+    int res;
 
     G = GRAPHinit(10);
 
+    /* assegno i nomi */
     GRAPHsetName(G, 0, "Roma");
     GRAPHsetName(G, 1, "Milano");
     GRAPHsetName(G, 2, "Torino");
@@ -22,37 +24,59 @@ int main(void) {
     GRAPHsetName(G, 8, "Palermo");
     GRAPHsetName(G, 9, "Catania");
 
-    /* archi orientati pesati */
-    e.v = 0; e.w = 1; e.wt = 5;
+    /* archi */
+
+    e.v = 0; e.w = 1; e.wt = 5;   /* Roma -> Milano */
     GRAPHinsertE(G, e);
 
-    e.v = 1; e.w = 2; e.wt = 3;
+    e.v = 2; e.w = 5; e.wt = 4;   /* Torino -> Bologna */
     GRAPHinsertE(G, e);
 
-    e.v = 2; e.w = 4; e.wt = 7;
+    e.v = 4; e.w = 6; e.wt = 1;   /* Genova -> Firenze */
     GRAPHinsertE(G, e);
 
-    e.v = 4; e.w = 0; e.wt = 2;
-    GRAPHinsertE(G, e);
 
+    //--------------------------------------------------------------
+    /*
+       Se aggiungi questo arco rompe il bipartito,
+       perché collega due vertici entrambi in V1
+    */
+
+    /*
+    e.v = 0; e.w = 2; e.wt = 7;
+    GRAPHinsertE(G, e);
+    */
+
+
+    //--------------------------------------------------------------
+
+    /* leggo V1 dal file */
     fp = fopen("../vertices.txt", "r");
+
     if (fp == NULL) {
-        printf("Errore apertura file vertices.txt\n");
-        GRAPHfree(G);
+        printf("Errore apertura file\n");
         return 1;
     }
 
-    s = readVertexSeq(G, fp);
+    V1 = readVertexSeq(G, fp);
     fclose(fp);
 
-    printf("Vertici letti: %d\n", vertexSeqSize(s));
+    printf("Vertici in V1:\n");
 
-    for (i = 0; i < vertexSeqSize(s); i++) {
-        id = vertexSeqGet(s, i);
-        printf("s[%d] = %d, nome = %s\n", i, id, GRAPHgetName(G, id));
+    for (i = 0; i < vertexSeqSize(V1); i++) {
+        id = vertexSeqGet(V1, i);
+        printf("%s\n", GRAPHgetName(G, id));
     }
 
-    vertexSeqFree(s);
+    /* verifica bipartizione */
+    res = checkBipart(G, V1);
+
+    if (res)
+        printf("\nIl grafo e' bipartito rispetto a V1 e V2\n");
+    else
+        printf("\nIl grafo NON e' bipartito rispetto a V1 e V2\n");
+
+    vertexSeqFree(V1);
     GRAPHfree(G);
 
     return 0;

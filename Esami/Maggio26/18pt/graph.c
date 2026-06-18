@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 #include "graph.h"
 
 /*
@@ -342,19 +343,30 @@ vertexSeq readVertexSeq(GRAPH G, FILE *fp) {
 
 int checkBipart(GRAPH g, vertexSeq V1) {
     int *inV1;
-    int i, v;
+    int i, u, w;
     link t;
 
+    /* Tutti i vertici sono inizialmente considerati in V2 */
     inV1 = calloc(g->V, sizeof(int));
 
+    /* Marco con 1 i vertici appartenenti a V1 */
     for (i = 0; i < vertexSeqSize(V1); i++) {
-        v = vertexSeqGet(V1, i);
-        inV1[v] = 1;
+        u = vertexSeqGet(V1, i);
+        inV1[u] = 1;
     }
 
-    for (v = 0; v < g->V; v++) {
-        for (t = g->ladj[v]; t != g->z; t = t->next) {
-            if (inV1[v] == inV1[t->v]) {
+    /* Scansione di tutti gli archi u -> w */
+    for (u = 0; u < g->V; u++) {
+        for (t = g->ladj[u]; t != g->z; t = t->next) {
+
+            /* t->v contiene la destinazione dell'arco */
+            w = t->v;
+
+            /*
+             * Se u e w appartengono allo stesso insieme,
+             * la partizione non è bipartita.
+             */
+            if (inV1[u] == inV1[w]) {
                 free(inV1);
                 return 0;
             }
@@ -363,4 +375,180 @@ int checkBipart(GRAPH g, vertexSeq V1) {
 
     free(inV1);
     return 1;
+}
+
+static void bestPathR(
+    GRAPH g,
+    int u,
+    int *inS,
+    int *visited,
+    int *path,
+    int pathLen,
+    int countS,
+    int weight,
+    int *best,
+    int *bestLen,
+    int *bestWeight
+) {
+    link t;
+    int w;
+    int tripleCount;
+    int i;
+
+    /*
+     * Il cammino corrente è una soluzione valida se:
+     * - ha un numero pari di vertici;
+     * - metà dei vertici appartiene a S.
+     *
+     * Il vincolo sulle terne è già stato controllato
+     * durante la costruzione.
+     */
+    if (pathLen % 2 == 0 && countS * 2 == pathLen) {
+        if (weight > *bestWeight) {
+            *bestWeight = weight;
+            *bestLen = pathLen;
+
+            for (i = 0; i < pathLen; i++)
+                best[i] = path[i];
+        }
+    }
+
+    /*
+     * Provo a estendere il cammino corrente u -> w
+     * con ogni arco uscente da u.
+     */
+    for (t = g->ladj[u]; t != g->z; t = t->next) {
+        w = t->v;
+
+        /* Il cammino deve essere semplice. */
+        if (visited[w])
+            continue;
+
+        /*
+         * Se aggiungendo w si forma una terna,
+         * verifico il vincolo:
+         *
+         * almeno uno deve appartenere a S,
+         * ma non possono appartenere tutti a S.
+         */
+        if (pathLen >= 2) {
+            tripleCount =
+                inS[path[pathLen - 2]] +
+                inS[path[pathLen - 1]] +
+                inS[w];
+
+            if (tripleCount == 0 || tripleCount == 3)
+                continue;
+        }
+
+        /* Scelta: aggiungo w al cammino. */
+        visited[w] = 1;
+        path[pathLen] = w;
+
+        bestPathR(
+            g,
+            w,
+            inS,
+            visited,
+            path,
+            pathLen + 1,
+            countS + inS[w],
+            weight + t->wt,
+            best,
+            bestLen,
+            bestWeight
+        );
+
+        /* Backtrack: rimuovo w dal cammino corrente. */
+        visited[w] = 0;
+    }
+}
+
+int bestPath(GRAPH g, vertexSeq S) {
+    int *inS;
+    int *visited;
+    int *path;
+    int *best;
+
+    int i;
+    int start;
+    int bestLen = 0;
+    int bestWeight = INT_MIN;
+
+    inS = calloc(g->V, sizeof(int));
+    visited = calloc(g->V, sizeof(int));
+    path = malloc(g->V * sizeof(int));
+    best = malloc(g->V * sizeof(int));
+
+    if (inS == NULL || visited == NULL ||
+        path == NULL || best == NULL) {
+        exit(EXIT_FAILURE);
+        }
+
+    /*
+     * Costruisco il vettore di appartenenza:
+     *
+     * inS[v] = 1 se v appartiene a S
+     * inS[v] = 0 altrimenti
+     */
+    for (i = 0; i < vertexSeqSize(S); i++) {
+        int v = vertexSeqGet(S, i);
+
+        if (v >= 0 && v < g->V)
+            inS[v] = 1;
+    }
+
+    /*
+     * Ogni vertice può essere il primo
+     * vertice del cammino.
+     */
+    for (start = 0; start < g->V; start++) {
+        visited[start] = 1;
+        path[0] = start;
+
+        bestPathR(
+            g,
+            start,
+            inS,
+            visited,
+            path,
+            1,              /* un vertice nel cammino */
+            inS[start],     /* quanti appartengono a S */
+            0,              /* nessun arco: peso zero */
+            best,
+            &bestLen,
+            &bestWeight
+        );
+
+        visited[start] = 0;
+    }
+
+    if (bestLen == 0) {
+        printf("Nessun cammino valido trovato.\n");
+
+        free(inS);
+        free(visited);
+        free(path);
+        free(best);
+
+        return INT_MIN;
+    }
+
+    printf("Cammino ottimo: ");
+
+    for (i = 0; i < bestLen; i++) {
+        printf("%s", GRAPHgetName(g, best[i]));
+
+        if (i < bestLen - 1)
+            printf(" -> ");
+    }
+
+    printf("\nPeso ottimo: %d\n", bestWeight);
+
+    free(inS);
+    free(visited);
+    free(path);
+    free(best);
+
+    return bestWeight;
 }

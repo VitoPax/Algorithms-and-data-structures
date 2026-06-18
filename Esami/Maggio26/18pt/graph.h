@@ -38,5 +38,6 @@ void vertexSeqFree(vertexSeq s);
 vertexSeq readVertexSeq(GRAPH G, FILE *fp);
 
 int checkBipart(GRAPH g, vertexSeq V1);
+int bestPath(GRAPH g, vertexSeq S);
 
 #endif //INC_18PT_GRAPH_H

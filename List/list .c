@@ -12,6 +12,6 @@ struct node {
 };
 
 struct list {
-    link root;
+    link head;
     int N;
 };

@@ -125,5 +125,19 @@ int main(void){
 
     LISTdisplay(ordinata);
 
+    /* TEST RICERCA CHIAVE IN LISTA ORDINATA */
+    trovato = LISTsortSearch(ordinata, 30);
+
+    if (trovato != ITEMsetvoid())
+        printf("Trovato: %d\n", trovato);
+    else
+        printf("Elemento non trovato\n");
+
+    /* TEST CANCELLAZIONE IN LISTA ORDINATA */
+    LISTsortDel(ordinata, 30);
+
+    printf("Dopo la cancellazione di 30:\n");
+    LISTdisplay(ordinata);
+
     return 0;
 }

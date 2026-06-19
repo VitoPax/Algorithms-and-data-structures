@@ -14,6 +14,7 @@ typedef struct list *LIST;
 Key KEYget(Item item);
 int KEYeq(Key k1, Key k2);
 int KEYgreater(Key k1, Key k2);
+int KEYgeq(Key k1, Key k2);
 Item ITEMsetvoid(void);
 
 /* Creazione della lista */
@@ -36,6 +37,8 @@ void LISTdelKey(LIST l, Key k);
 
 /* Liste ordinate */
 void LISTsortIns(LIST l, Item item);
+Item LISTsortSearch(LIST l, Key k);
+void LISTsortDel(LIST l, Key k);
 
 /* Visualizzazione */
 void LISTdisplay(LIST l);

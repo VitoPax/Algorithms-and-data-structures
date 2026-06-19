@@ -140,6 +140,11 @@ int KEYgreater(Key k1, Key k2)
     return k1 > k2;
 }
 
+int KEYgeq(Key k1, Key k2)
+{
+    return k1 >= k2;
+}
+
 Item ITEMsetvoid(void){
     return -1;
 }
@@ -336,4 +341,65 @@ void LISTsortIns(LIST l, Item item){
         return;
 
     l->root = SortListIns(l->root, item);
+}
+
+static Item SortListSearch(link h, Key k)
+{
+    link x;
+
+    x = h;
+
+    while (x != NULL &&
+           KEYgeq(k, KEYget(x->item))) {
+
+        if (KEYeq(KEYget(x->item), k))
+            return x->item;
+
+        x = x->next;
+           }
+
+    return ITEMsetvoid();
+}
+
+Item LISTsortSearch(LIST l, Key k)
+{
+    if (l == NULL)
+        return ITEMsetvoid();
+
+    return SortListSearch(l->root, k);
+}
+
+static link SortListDel(link h, Key k)
+{
+    link x;
+    link p;
+
+    if (h == NULL)
+        return NULL;
+
+    for (x = h, p = NULL;
+         x != NULL && KEYgeq(k, KEYget(x->item));
+         p = x, x = x->next) {
+
+        if (KEYeq(KEYget(x->item), k)) {
+
+            if (p == NULL)
+                h = x->next;
+            else
+                p->next = x->next;
+
+            free(x);
+            break;
+        }
+         }
+
+    return h;
+}
+
+void LISTsortDel(LIST l, Key k)
+{
+    if (l == NULL)
+        return;
+
+    l->root = SortListDel(l->root, k);
 }

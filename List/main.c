@@ -2,8 +2,7 @@
 
 #include "list.h"
 
-int main(void)
-{
+int main(void){
     LIST l;
     Item trovato;
 
@@ -107,6 +106,24 @@ int main(void)
 
     printf("\nDopo il tentativo di cancellare 50:\n");
     LISTdisplay(l);
+
+    /* TEST LISTA ORDINATA */
+    LIST ordinata;
+
+    ordinata = LISTinit();
+
+    if (ordinata == NULL) {
+        printf("Errore di allocazione\n");
+        return 1;
+    }
+
+    printf("\nLista ordinata:\n");
+    LISTsortIns(ordinata, 30);
+    LISTsortIns(ordinata, 10);
+    LISTsortIns(ordinata, 40);
+    LISTsortIns(ordinata, 20);
+
+    LISTdisplay(ordinata);
 
     return 0;
 }

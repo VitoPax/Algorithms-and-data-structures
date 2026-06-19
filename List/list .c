@@ -135,6 +135,11 @@ int KEYeq(Key k1, Key k2){
     return k1 == k2;
 }
 
+int KEYgreater(Key k1, Key k2)
+{
+    return k1 > k2;
+}
+
 Item ITEMsetvoid(void){
     return -1;
 }
@@ -290,3 +295,45 @@ void LISTdelKey(LIST l, Key k)
 
 
 /* FINE FUNZIONI SU LISTE NON ORDINATE */
+
+/* LISTE ORDINATE */
+
+static link SortListIns(link h, Item item){
+    link x;
+    link p;
+    link nuovo;
+    Key k;
+
+    k = KEYget(item);
+
+    if (h == NULL || KEYgreater(KEYget(h->item), k)) {
+        nuovo = newNode(item, h);
+
+        if (nuovo == NULL)
+            return h;
+
+        return nuovo;
+    }
+
+    for (x = h->next, p = h;
+         x != NULL && KEYgreater(k, KEYget(x->item));
+         p = x, x = x->next)
+        ;
+
+    nuovo = newNode(item, x);
+
+    if (nuovo == NULL)
+        return h;
+
+    p->next = nuovo;
+
+    return h;
+}
+
+
+void LISTsortIns(LIST l, Item item){
+    if (l == NULL)
+        return;
+
+    l->root = SortListIns(l->root, item);
+}

@@ -43,7 +43,7 @@ void LISTsortDel(LIST l, Key k);
 /* Visualizzazione */
 void LISTdisplay(LIST l);
 
+void LISTreverse(LIST l);
+
 #endif
-
-
 #endif //LIST_LIST_H

@@ -139,5 +139,16 @@ int main(void){
     printf("Dopo la cancellazione di 30:\n");
     LISTdisplay(ordinata);
 
+    /* Inversione */
+
+
+    printf("Lista prima dell'inversione:\n");
+    LISTdisplay(ordinata);
+
+    LISTreverse(ordinata);
+
+    printf("Lista dopo l'inversione:\n");
+    LISTdisplay(ordinata);
+
     return 0;
 }

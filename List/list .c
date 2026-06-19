@@ -343,8 +343,7 @@ void LISTsortIns(LIST l, Item item){
     l->root = SortListIns(l->root, item);
 }
 
-static Item SortListSearch(link h, Key k)
-{
+static Item SortListSearch(link h, Key k){
     link x;
 
     x = h;
@@ -361,16 +360,14 @@ static Item SortListSearch(link h, Key k)
     return ITEMsetvoid();
 }
 
-Item LISTsortSearch(LIST l, Key k)
-{
+Item LISTsortSearch(LIST l, Key k){
     if (l == NULL)
         return ITEMsetvoid();
 
     return SortListSearch(l->root, k);
 }
 
-static link SortListDel(link h, Key k)
-{
+static link SortListDel(link h, Key k){
     link x;
     link p;
 
@@ -396,10 +393,56 @@ static link SortListDel(link h, Key k)
     return h;
 }
 
-void LISTsortDel(LIST l, Key k)
-{
+void LISTsortDel(LIST l, Key k){
     if (l == NULL)
         return;
 
     l->root = SortListDel(l->root, k);
+}
+
+/* Applicazioni */
+
+// Inversione di lista prima versione: in questa versione usiamo le funzioni di estrazione ed inserimento
+
+static link listReverseF(link h){
+    link y;
+    link r;
+    Item item;
+
+    y = h;
+    r = NULL;
+
+    while (y != NULL) {
+        item = listExtrHeadP(&y);
+        r = listInsHead(r, item);
+    }
+
+    return r;
+}
+
+void LISTreverse(LIST l){
+    if (l == NULL)
+        return;
+
+    l->root = listReverseF(l->root);
+}
+
+// Seconda versione: giriamo i puntatori 
+
+static link listReverse(link h){
+    link y;
+    link r;
+    link t;
+
+    y = h;
+    r = NULL;
+
+    while (y != NULL) {
+        t = y->next;
+        y->next = r;
+        r = y;
+        y = t;
+    }
+
+    return r;
 }

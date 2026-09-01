@@ -8,25 +8,30 @@ Completare il codice parziale utilizzando la numerazione riportata
 */
 
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
-
 
 typedef struct node {
     char *val;
     struct node *next;
 } *link;
 
-
 int countCommonNodes(link h1, link h2) {
-    link p1, p2;
-    int cnt = 0;
+    link p1, p2;                                   /* <1> */
+    int count = 0;
 
-    for (p1 = h1, p2 = h2; p1 != NULL; p1 = p1->next) {
-        if (p1->val == p2->val) {
-            cnt++; // Trovato nodo comune
-        } else {
+    for (p1 = h1, p2 = h2; p1 != NULL && p2 != NULL; ) {   /* <2>, <3> vuoto */
+        if (p1 == p2) {                              /* <4> */
+            count++;                                   /* <5> */
+            p1 = p1->next;
             p2 = p2->next;
         }
+        else {
+            if (strcmp(p1->val, p2->val) > 0)          /* <6> */
+                p2 = p2->next;
+            else
+                p1 = p1->next;
+        }
     }
-    return cnt;
+    return count;                                  /* <7> */
 }

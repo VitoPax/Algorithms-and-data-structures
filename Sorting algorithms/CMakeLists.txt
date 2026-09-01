@@ -3,4 +3,5 @@ project(Sorting_algorithms C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(Sorting_algorithms insertionSort.c)
+add_executable(Sorting_algorithms insertionSort.c
+        mergeSort.c)

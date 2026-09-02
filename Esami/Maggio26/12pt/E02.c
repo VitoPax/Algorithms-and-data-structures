@@ -51,7 +51,6 @@ LIST LISTdup(LIST l) {
     if (l == NULL) return NULL;
 
     ldup = malloc(sizeof(struct list));
-
     if (ldup == NULL) return NULL;
     ldup->root = NULL;
 
@@ -65,4 +64,20 @@ LIST LISTdup(LIST l) {
     }
 
     return ldup;
+}
+
+void LISTfree(LIST l) {
+    link x, t;
+
+    if (l == NULL)
+        return;
+
+    x = l->root;
+    while (x != NULL) {
+        t = x->next;    /* salvo il successore PRIMA di distruggere il nodo */
+        free(x);
+        x = t;          /* avanzo usando la copia salvata */
+    }
+
+    free(l);          /* infine l'handle */
 }

@@ -27,7 +27,7 @@ int countCommonNodes(link h1, link h2) {
             p2 = p2->next;
         }
         else {
-            if (strcmp(p1->val, p2->val) > 0)          /* <6> */
+            if (strcmp(p1->val, p2->val) > 0)          /* <6> */ // Se p1->val > p2->val --> avanza p2 che e' rimasto indietro
                 p2 = p2->next;
             else
                 p1 = p1->next;

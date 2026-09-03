@@ -3,4 +3,4 @@ project(Exercises C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(Exercises E01.c)
+add_executable(Exercises Exercise_lista_01.c)

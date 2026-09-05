@@ -10,6 +10,7 @@ int maxPerRiga(int **m, int r, int c, int **vp);
 #include <stdio.h>
 #include <stdlib.h>
 
+/* Versione con variabile v che muore dentro la funzione e assegnazione finale
 
 int maxPerRiga(int **m, int r, int c, int **vp) {
 
@@ -20,13 +21,35 @@ int maxPerRiga(int **m, int r, int c, int **vp) {
     if (v == NULL) return -1;
 
     for (i = 0; i < r; i++) {
-        maxTmp = m[i][0];          /* primo elemento della riga */
-        for (j = 1; j < c; j++)    /* parto da 1, il or l'ho già preso */
+        maxTmp = m[i][0];
+        for (j = 1; j < c; j++)
             if (m[i][j] > maxTmp)
                 maxTmp = m[i][j];
         v[i] = maxTmp;
     }
 
     *vp = v;
+    return r;
+}
+
+*/
+
+int maxPerRiga(int **m, int r, int c, int **vp) {
+    int i,j, maxTmp;
+
+    *vp = malloc(r*sizeof(int));
+    if (*vp == NULL) return -1;
+
+    for (i=1; i<r; i++) {
+        maxTmp = m[i][0];
+        for (j=0; j<c; j++) {
+            if (m[i][j] > maxTmp) {
+                maxTmp = m[i][j];
+            }
+
+        }
+        (*vp)[i] = maxTmp;
+    }
+
     return r;
 }

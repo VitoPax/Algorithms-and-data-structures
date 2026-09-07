@@ -94,6 +94,7 @@ void powersetCOMB(int *val, int n) {
     for (int k = 0; k <= n; k++) {
         powersetCOMB_r(0,val,sol,n,k,0);
     }
+    free(sol);
 }
 
 
@@ -109,6 +110,6 @@ void powersetCOMB_r(int level, int *val, int *sol, int n, int k, int start) {
 
     for (int i = start; i<n; i++) {
         sol[level] = val[i];
-        powersetCOMB_r(level+1,val,sol,n,k,i+1);     // start = i
+        powersetCOMB_r(level+1,val,sol,n,k,i+1);     // start = i +1
     }
 }

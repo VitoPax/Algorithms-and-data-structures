@@ -53,6 +53,39 @@ void f(int **m, int N, int *P, int NP) {
     }
 }
 
+
+/* Altra soluzione
+
+void f(int **m, int N, int *P, int NP){
+    int flag , k, count;;
+
+    for(k=0; k < N; k++){
+
+        flag = 0;
+        for(int i=0; i < NP; i++){
+
+            if(k == P[i]){
+                flag = 1;
+            }
+
+        if(!flag){
+            count = 0;
+            for(int j = 0; j <  NP; j++){
+                if(m[k][P[j]] == 1){
+                    count++;
+                }
+            }
+
+            if(count >= 2)
+                printf("%d", k);
+
+
+        }
+    }
+
+}
+*/
+
 /* ===============================================================
    Codice di prova
    =============================================================== */

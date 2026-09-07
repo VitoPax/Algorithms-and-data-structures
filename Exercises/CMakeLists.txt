@@ -3,5 +3,5 @@ project(Exercises C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(Exercises    Exercise_matrix_02.c
-        Excercise_string_01.c)
+add_executable(Exercises
+        Exercise_matrix_03.c)

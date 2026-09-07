@@ -30,53 +30,26 @@ int isInElenco(int k, int *P, int NP) {
 }
 
 /* ---------------------------------------------------------------
-   Conta quante persone dell'elenco P sono amiche di k.
-   --------------------------------------------------------------- */
-int contaAmiciInElenco(int **m, int k, int *P, int NP) {
-    int t, count = 0;
-
-    for (t = 0; t < NP; t++)
-        if (m[k][P[t]] == 1)    /* k e' amico della t-esima dell'elenco? */
-            count++;
-
-    return count;
-}
-
-/* ---------------------------------------------------------------
    INDICI:
-     k = scorre le N persone candidate
-     t = scorre le NP persone dell'elenco (dentro le funzioni)
+     k     = scorre le N persone candidate
+     t     = scorre le NP persone dell'elenco
+     count = amicizie di k dentro l'elenco, AZZERATO A OGNI k
    --------------------------------------------------------------- */
 void f(int **m, int N, int *P, int NP) {
-    int k;
-
-    for (k = 0; k < N; k++) {
-        if (isInElenco(k, P, NP))
-            continue;                       /* scarto chi e' in elenco */
-
-        if (contaAmiciInElenco(m, k, P, NP) >= 2)
-            printf("%d\n", k);              /* stampo la PERSONA */
-    }
-}
-
-/* ---------------------------------------------------------------
-   Variante monolitica, senza funzione di conteggio.
-   Stessa logica, tutto dentro f.
-   --------------------------------------------------------------- */
-void f_variante(int **m, int N, int *P, int NP) {
     int k, t, count;
 
     for (k = 0; k < N; k++) {
-        if (isInElenco(k, P, NP))
-            continue;
 
-        count = 0;                          /* azzerato PER OGNI k */
+        if (isInElenco(k, P, NP))       // SE TROVATA SALTO ALLA PROSSIMA ITERAZIONE SENZA ESEGUIRE IL CODICE DI SOTTO
+            continue;                   /* scarto chi e' in elenco */
+
+        count = 0;                      /* azzerato PER OGNI k */
         for (t = 0; t < NP; t++)
-            if (m[k][P[t]] == 1)
+            if (m[k][P[t]] == 1)        /* k amico della t-esima in elenco? */
                 count++;
 
-        if (count >= 2)
-            printf("%d\n", k);
+        if (count >= 2)                 /* test DENTRO il ciclo su k */
+            printf("%d\n", k);          /* stampo la PERSONA, non la matrice */
     }
 }
 
@@ -133,8 +106,8 @@ void prova(char *nome, int N, int *dati, int *P, int NP) {
 }
 
 int main(void) {
-    /* 5 persone. Amicizie simmetriche.
-       0-1, 0-2, 1-3, 2-3, 3-4, 0-4                              */
+    /* 5 persone, amicizie simmetriche:
+       0-1, 0-2, 0-4, 1-3, 2-3, 3-4                              */
     int d1[] = {
     /*        0  1  2  3  4  */
     /* 0 */   0, 1, 1, 0, 1,
@@ -143,22 +116,16 @@ int main(void) {
     /* 3 */   0, 1, 1, 0, 1,
     /* 4 */   1, 0, 0, 1, 0
     };
-    int P1[] = {1, 2};        /* 0 e' amico di 1 e 2 -> stampato
-                                 3 e' amico di 1 e 2 -> stampato
-                                 4 non e' amico di nessuno dei due */
 
-    int P2[] = {0, 3};        /* 1 amico di 0 e 3 -> si
-                                 2 amico di 0 e 3 -> si
-                                 4 amico di 0 e 3 -> si          */
+    int P1[] = {1, 2};            /* atteso: 0 e 3 */
+    int P2[] = {0, 3};            /* atteso: 1, 2, 4 */
+    int P3[] = {0, 1, 2, 3, 4};   /* atteso: nessuno (tutti in elenco) */
+    int P4[] = {1};               /* atteso: nessuno (>=2 impossibile) */
 
-    int P3[] = {0, 1, 2, 3, 4};   /* tutti in elenco -> nessun output */
-
-    int P4[] = {1};           /* un solo elemento: impossibile >= 2 */
-
-    prova("elenco {1,2}",        5, d1, P1, 2);
-    prova("elenco {0,3}",        5, d1, P2, 2);
-    prova("elenco = tutti",      5, d1, P3, 5);
-    prova("elenco con 1 solo",   5, d1, P4, 1);
+    prova("elenco {1,2}",      5, d1, P1, 2);
+    prova("elenco {0,3}",      5, d1, P2, 2);
+    prova("elenco = tutti",    5, d1, P3, 5);
+    prova("elenco con 1 solo", 5, d1, P4, 1);
 
     return 0;
 }

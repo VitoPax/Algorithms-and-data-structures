@@ -4,4 +4,4 @@ project(12pt C)
 set(CMAKE_C_STANDARD 99)
 
 add_executable(12pt
-        E01.c)
+        E03.c)

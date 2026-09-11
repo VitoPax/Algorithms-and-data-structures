@@ -3,5 +3,4 @@ project(Settembre24 C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(Settembre24 main.c
-        E01.c)
+add_executable(Settembre24 extra.c)

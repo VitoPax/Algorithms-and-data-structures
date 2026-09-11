@@ -1,14 +1,25 @@
 /*
-Sono dati due vettori di interi ordinati in modo crescente e privi di ripetizioni.
-Si scriva una funzione che generi un vettore (allocato dinamicamente) contenente gli interi appartenenti al primo vettore e non al secondo.
-La funzione deve essere chiamata come segue:
+ *
+È dato un BST avente come valori delle stringhe, che fungono anche da chiave di ricerca.
+Si scriva una funzione che determini la foglia a profondità massima MAXF (in caso di uguaglianza, si selezioni la foglia con chiave maggiore).
+La funzione stampi a ritroso (quindi da foglia a radice) le chiavi sul cammino che connette la foglia MAXF alla radice.
+Il prototipo della funzione deve essere:
 
-c = diffVett(a,na,b,nb,&nc);
+void BSTprintDeepest(BST b);
 
-a e b sono i due vettori, na e nb il numero di dati che contengono; c è il vettore risultato,
-allocato dinamicamente nella funzione, nc il numero di interi nel vettore risultato.
+Si richiede, oltre alla funzione, la definizione del tipo BST (ADT di prima classe) e del tipo usato per il nodo.
 
-Si richiede di realizzare (SOLO) la funzione diffVett (quindi non del programma chiamante).
 */
 
 
+typedef struct BSTnode *link;
+
+struct BSTnode {
+    char *key;
+};
+
+typedef struct bst *BST;
+
+struct bst {
+    link root;
+};

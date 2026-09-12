@@ -62,7 +62,7 @@ void maxConcatSeq_r(int level, char **S, int n, int *sol, int *mark,
 /* --------------------------- WRAPPER ------------------------------ */
 
 int maxConcatSeq(char **S, int n) {
-    int *sol     = malloc(n * sizeof(int));
+    int *sol    = malloc(n * sizeof(int));
     int *bestSol = malloc(n * sizeof(int));
     int *mark    = calloc(n, sizeof(int));
     int best = 0;

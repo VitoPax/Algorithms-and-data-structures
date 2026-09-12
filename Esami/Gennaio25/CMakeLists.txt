@@ -4,4 +4,4 @@ project(Gennaio25 C)
 set(CMAKE_C_STANDARD 99)
 
 add_executable(Gennaio25
-        E03.c)
+        E01.c)
